@@ -1,0 +1,21 @@
+
+
+
+docker build .
+docker build -t <image name> .
+
+
+docker run -p <host port>:<container port> <image id> or <image name>
+
+
+
+docker --help
+
+-- use when to enable attach mode (log message)
+docker -a <container name> (use between container start)
+-a, attach => attach mode (foreground mode  *default mode) 
+-d, detach => detach mode (background mode  *default mode) 
+
+
+docker logs <container name>
+-f, follow => follow log in docker container

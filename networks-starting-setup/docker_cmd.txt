@@ -1,0 +1,24 @@
+# remove image tag <none>
+docker image prune --filter="dangling=true"
+
+docker build --rm -t favorites-node .
+docker run -d --rm -p 3000:3000 --name favorites-app favorites-node
+
+
+
+# Docker inspect
+docker container inspect <container name>
+
+
+# Docker network
+docker network ls
+docker network create <network name>
+
+docker build --rm -t favorites-node .
+docker run -d --rm -p 3000:3000 --name favorites-app favorites-node
+
+docker pull mongo
+docker run -d --network favorites-net --name mongodb mongo
+
+้host.docker.internal => special address for container communicate to your local host machine
+

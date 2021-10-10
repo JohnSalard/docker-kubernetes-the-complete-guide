@@ -1,0 +1,35 @@
+docker build -t <image name>:<tag>
+
+
+
+docker build -t feedback-node:latest .
+docker run -d --rm -p 3000:80 --name feedback-app 
+-v feedback:/app/feedback
+-v $(pwd):/app:ro
+-v /app/node_modules
+-v /app/temp
+feedback-node:latest
+
+(ro) => read only
+
+docker start feedback-app
+docker stop feedback-app
+
+docker volume ls
+docker volume inspect <volume name>
+docker volume create <volume name>
+
+
+env
+docker build -t feedback-node:env .
+docker run -d --rm -p 3000:8000 --env PORT=8000 -e SECRET=askzxcsasask --env-file ./.env --name feedback-app 
+-v feedback:/app/feedback
+-v $(pwd):/app:ro
+-v /app/node_modules
+-v /app/temp
+feedback-node:env
+
+--env-file .env
+
+
+docker build -t feedback-node:dev --build-arg DEFAULT_PORT=8000 .

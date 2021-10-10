@@ -1,0 +1,43 @@
+# Mongo Database
+docker run -d --rm -p 27017:27017 --name mongodb mongo
+
+docker run -d --rm --net goals-net -p 27017:27017 -v goals-data:/data/db --name mongodb mongo
+
+
+# Backend
+docker build -t goals-node:latest .
+docker run -d --rm --name goals-backend -p 80:80 goals-node:latest
+
+# Frontend
+docker build -t goals-react:latest .
+docker run -d --rm --name goals-frontend -p 3000:3000 goals-react:latest
+
+## Detach mode
+docker run -it --rm --name goals-frontend -p 3000:3000 goals-react:latest
+
+
+
+
+
+# After create docker network for communicate between containers
+docker network create goals-net
+docker run -d --rm --net goals-net --name mongodb mongo
+docker run -d --rm --net goals-net --name goals-backend -p 80:80 goals-node:latest
+docker run -it --rm --net goals-net --name goals-frontend -p 3000:3000 goals-react (remove --net goals-net)
+
+## Map volume for protect data when your stop container
+docker run -d --rm --net goals-net -v goals-mongo-data:/data/db --name mongodb -p 27017:27017 mongo
+docker run -d --rm --net goals-net -v $(pwd):/app -v /app/node_modules --name goals-backend -p 80:80 goals-node:latest
+docker run -d --rm --net goals-net -v $(pwd):/app -v /app/node_modules -e MONGODB_USERNAME=goals_admin -e MONGODB_PASSWORD=password --name goals-backend -p 80:80 goals-node:latest
+
+docker run -it --rm --net goals-net -v $(pwd)/src:/app/src --name goals-frontend -p 3000:3000 goals-react (remove --net goals-net)
+
+
+
+
+## Add Authentication mongodb 
+docker run -d --rm --net goals-net -e MONGO_INITDB_ROOT_USERNAME=goals_admin -e MONGO_INITDB_ROOT_PASSWORD=password -p 27017:27017 -v goals-data:/data/db --name mongodb mongo
+
+
+
+

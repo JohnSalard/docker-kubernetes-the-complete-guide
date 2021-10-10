@@ -1,0 +1,98 @@
+1) Create appropriate images for both apps (two separate images!).
+HINT: Have a brief look at the app code to configure your images correctly!
+
+# Node App
+-> Dockerfile:
+---------------------------------------
+FROM node:12
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+
+EXPOSE 3000
+
+CMD ["node","server.js"]
+---------------------------------------
+-> Build image: 
+docker build .
+
+
+# Python App
+-> Dockerfile:
+---------------------------------------
+FROM python
+
+WORKDIR /app
+
+COPY . /app
+
+CMD ["python","bmi.py"]
+---------------------------------------
+-> Build image: 
+docker build .
+
+
+2) Launch a container for each created image, making sure, 
+that the app inside the container works correctly and is usable.
+
+# Node App
+-> Run: 
+docker run -p 80:3000 <image name or image id>
+
+# Python App
+-> Run: 
+docker run -it <image name or image id>
+
+
+3) Re-create both containers and assign names to both containers.
+Use these names to stop and restart both containers.
+
+# Node App
+-> Run: 
+docker run -d -p 80:3000 --name node-app <image name or image id>
+docker stop node-app
+docker start node-app
+
+# Python App
+-> Run: 
+docker run -it --name python-app <image name or image id>
+docker stop python-app
+docker start -a python-app
+
+
+4) Clean up (remove) all stopped (and running) containers, 
+clean up all created images.
+
+-> Remove images:
+docker rmi <image name or image id>
+docker images prune -a
+
+-> Remove containers:
+docker rm container prune
+
+
+5) Re-build the images - this time with names and tags assigned to them.
+# Node App
+-> Rebuild image:
+docker build -t node_image_app:v1 .
+
+# Python App
+-> Rebuild image:
+docker build -t python_image_app:v1 .
+
+
+6) Run new containers based on the re-built images, ensuring that the containers
+are removed automatically when stopped.
+
+# Node App
+-> Run:
+docker run -d --rm -p 3333:3000 --name node_app node_app:v1 .
+
+# Python App
+-> Run:
+docker run -it --name python_app python_app:v1 
